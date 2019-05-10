@@ -10,12 +10,30 @@ class App extends React.Component {
     this.state = { 
       repos: []
     }
+    this.loadRepos = this.loadRepos.bind(this);
+  }
 
+  componentDidMount() {
+    window.addEventListener('load', this.loadRepos)
+  }
+
+  loadRepos() {
+    $.ajax({
+      method: 'GET',
+      url: '/repos',
+      success: repos => this.setState({repos})
+    });
   }
 
   search (term) {
     console.log(`${term} was searched`);
     // TODO
+    $.ajax({
+      method: 'POST',
+      url: '/repos',
+      data: {term}
+    });
+    this.loadRepos()
   }
 
   render () {
