@@ -21,8 +21,12 @@ class App extends React.Component {
     $.ajax({
       method: 'GET',
       url: '/repos',
-      success: repos => this.setState({repos})
+      success: repos => {
+        this.setState({repos})
+        console.log('load')
+      }
     });
+    
   }
 
   search (term) {
@@ -31,9 +35,9 @@ class App extends React.Component {
     $.ajax({
       method: 'POST',
       url: '/repos',
-      data: {term}
+      data: {term},
+      success: () => this.loadRepos()
     });
-    this.loadRepos()
   }
 
   render () {

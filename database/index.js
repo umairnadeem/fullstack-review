@@ -17,7 +17,7 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (data) => {
+let save = (data, callback) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
@@ -33,7 +33,12 @@ let save = (data) => {
     avatar_url: repo.avatar_url,
     updated_at: repo.updated_at
   }));
-  Repo.create(extractedData);
+  Repo.create(extractedData, (err, data) => {
+    if (err) {
+      return console.err('error');
+    }
+    callback();
+  });
 }
 
 let find = (callback) => {

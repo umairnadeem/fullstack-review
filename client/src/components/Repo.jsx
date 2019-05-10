@@ -2,7 +2,7 @@ import React from 'react';
 
 const Repo = (props) => (
     <li>
-        <strong>{props.repo.name}</strong><br/>
+        <a href={props.repo.url}><strong>{props.repo.name}</strong></a><br/>
         Forks: {props.repo.forks}<br/>
         User: {props.repo.user}
     </li>

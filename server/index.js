@@ -15,7 +15,7 @@ app.post('/repos', function (req, res) {
   // and get the repo information from the github API, then
   // save the repo information in the database
   let user = req.body.term;
-  model.getReposByUsername(user, data => db.save(data));
+  model.getReposByUsername(user, data => db.save(data, () => res.sendStatus(201)));
 });
 
 app.get('/repos', function (req, res) {
