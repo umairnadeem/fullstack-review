@@ -8,13 +8,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      repos: []
+      repos: [],
+      newEntries: 0
     }
     this.loadRepos = this.loadRepos.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('load', this.loadRepos)
+    window.addEventListener('load', this.loadRepos);
   }
 
   loadRepos() {
@@ -36,14 +37,17 @@ class App extends React.Component {
       method: 'POST',
       url: '/repos',
       data: {term},
-      success: () => this.loadRepos()
+      success: (newEntries) => {
+        this.loadRepos();
+        this.setState({newEntries});
+      }
     });
   }
 
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
+      <RepoList repos={this.state.repos} newEntries={this.state.newEntries}/>
       <Search onSearch={this.search.bind(this)}/>
     </div>)
   }

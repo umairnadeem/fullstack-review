@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
+
 var db = mongoose.connection;
 db.once('open', () => console.log('connected baby!!'));
+
 let repoSchema = mongoose.Schema({
   id: {type: Number, unique: true},
   name: String,
@@ -35,14 +37,15 @@ let save = (data, callback) => {
   }));
   Repo.create(extractedData, (err, data) => {
     if (err) {
-      return console.err('error');
+      callback(0);
+      return console.error(err);
     }
-    callback();
+    callback(data);
   });
 }
 
 let find = (callback) => {
-Repo.find({}).limit(25).sort({ forks: -1}).exec((err, repos) => callback(repos));
+  Repo.find({}).limit(25).sort({ forks: -1}).exec((err, repos) => callback(repos));
 }
 
 module.exports = {
